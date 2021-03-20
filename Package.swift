@@ -1,28 +1,36 @@
 // swift-tools-version:5.1
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// My personal machine is still on 10.14.6 for 32 bit compatability.
+// I would have included the test files as resources otherwise.
 
 import PackageDescription
 
 let package = Package(
-    name: "SpeedRoommatingRepo",
+    name: "SpeedRoommatingEventRepo",
+    platforms: [
+        .macOS(.v10_12), // for quicker testing
+        .iOS(.v11)
+    ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
-            name: "SpeedRoommatingRepo",
-            targets: ["SpeedRoommatingRepo"]),
+            name: "SpeedRoommatingEventRepo",
+            targets: ["SpeedRoommatingEventRepo"]),
     ],
-    dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
-    ],
+    dependencies: [],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
-            name: "SpeedRoommatingRepo",
+            name: "SpeedRoommatingEventRepo",
             dependencies: []),
         .testTarget(
-            name: "SpeedRoommatingRepoTests",
-            dependencies: ["SpeedRoommatingRepo"]),
+            name: "SpeedRoommmatingEventRepoTests",
+            dependencies: ["SpeedRoommatingEventRepo"],
+            path: "Tests"
+//            resources: [
+//                .copy("bad_event_test.json"),
+//                .copy("event_test.json")
+//            ]
+        ),
     ]
 )
