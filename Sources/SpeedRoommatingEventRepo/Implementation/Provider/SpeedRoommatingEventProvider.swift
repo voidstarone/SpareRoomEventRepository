@@ -16,7 +16,7 @@ public struct SpeedRoommatingEventProvider : ISpeedRoommatingEventProvider {
     private let eventSourceAdapter: ISpeedRoommatingEventSourceAdapter
     private let eventFactory: ISpeedRoommatingEventFactory = SpeedRoommatingEventFactory()
     
-    static let `default` = SpeedRoommatingEventProvider(eventSourceAdapter:
+    public static let `default` = SpeedRoommatingEventProvider(eventSourceAdapter:
         SpeedRoommatingEventSourceJsonApiAdapter())
     
     public init(eventFactory: ISpeedRoommatingEventFactory, eventSourceAdapter: ISpeedRoommatingEventSourceAdapter) {
