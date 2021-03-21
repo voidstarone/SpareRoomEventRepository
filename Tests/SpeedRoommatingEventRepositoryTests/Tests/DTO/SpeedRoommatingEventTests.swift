@@ -1,5 +1,5 @@
 import XCTest
-@testable import SpeedRoommatingEventRepo
+@testable import SpeedRoommatingEventRepository
 
 final class SpeedRoommatingEventTests: XCTestCase {
     

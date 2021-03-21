@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@testable import SpeedRoommatingEventRepo
+@testable import SpeedRoommatingEventRepository
 
 struct MockSpeedRoommatingEvent : ISpeedRoommatingEvent {
     var imageUrl: String

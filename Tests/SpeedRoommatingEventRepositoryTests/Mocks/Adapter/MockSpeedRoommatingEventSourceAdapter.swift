@@ -6,11 +6,7 @@
 //
 
 import Foundation
-@testable import SpeedRoommatingEventRepo
-
-enum MockError : Error {
-    case mock
-}
+@testable import SpeedRoommatingEventRepository
 
 struct MockEventSourceAdapterSuccessful : ISpeedRoommatingEventSourceAdapter {
     var eventFactory: ISpeedRoommatingEventFactory = MockSpeedRoommatingEventFactory()
@@ -41,15 +37,5 @@ struct MockEventSourceAdapterSuccessful : ISpeedRoommatingEventSourceAdapter {
              "venue":"Brooklyn"]
         ]
         onComplete(.success(events))
-    }
-}
-
-struct MockEventSourceAdapterFailure : ISpeedRoommatingEventSourceAdapter {
-    var eventFactory: ISpeedRoommatingEventFactory = MockSpeedRoommatingEventFactory()
-    
-    init() {}
-    
-    func listAllEventsAsDictionaries(onComplete: @escaping (Result<[[String:String]], Error>) -> Void) {
-        onComplete(.failure(MockError.mock))
     }
 }

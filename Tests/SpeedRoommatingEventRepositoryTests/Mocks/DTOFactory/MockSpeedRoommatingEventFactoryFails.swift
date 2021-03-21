@@ -8,7 +8,7 @@
 import Foundation
 
 import Foundation
-@testable import SpeedRoommatingEventRepo
+@testable import SpeedRoommatingEventRepository
 
 public struct MockSpeedRoommatingEventFactoryFails : ISpeedRoommatingEventFactory {
     

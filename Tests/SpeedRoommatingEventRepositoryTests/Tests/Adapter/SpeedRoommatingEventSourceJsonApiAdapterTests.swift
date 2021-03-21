@@ -8,7 +8,7 @@
 import Foundation
 import XCTest
 
-@testable import SpeedRoommatingEventRepo
+@testable import SpeedRoommatingEventRepository
 
 
 final class SpeedRoommatingEventSourceJsonApiAdapterTests: XCTestCase {
@@ -43,9 +43,9 @@ final class SpeedRoommatingEventSourceJsonApiAdapterTests: XCTestCase {
         esa.listAllEventsAsDictionaries {
             result in
             switch result {
-                case let .failure(_):
+                case .failure:
                     break;
-                case let .success(_):
+                case .success:
                     promiseToComplete.fulfill()
             }
         }

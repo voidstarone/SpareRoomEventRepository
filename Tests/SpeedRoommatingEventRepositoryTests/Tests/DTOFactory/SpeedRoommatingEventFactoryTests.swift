@@ -9,7 +9,7 @@
 import Foundation
 import XCTest
 
-@testable import SpeedRoommatingEventRepo
+@testable import SpeedRoommatingEventRepository
 
 
 final class SpeedRoommatingEventFactoryTests: XCTestCase {

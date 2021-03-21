@@ -8,7 +8,7 @@
 import Foundation
 import XCTest
 
-@testable import SpeedRoommatingEventRepo
+@testable import SpeedRoommatingEventRepository
 
 
 final class SpeedRoommatingEventSourceJsonFileAdapterTests: XCTestCase {
@@ -19,7 +19,7 @@ final class SpeedRoommatingEventSourceJsonFileAdapterTests: XCTestCase {
         
         //This is horrifying, but because I'm not on swift-tools 5.3, I'm not sure what other choice I have other than to leave it untested.
         // I have included settings which _should_ work in package.swift, as well as the commented out jsonUrl below, so hopefully you will be able to use those rather than this nightmare.
-        let jsonUrl = URL(string: "./Developer/SpareRoom/SpeedRoommatingEventRepo/Tests/SpeedRoommatingEventRepoTests/Tests/Resources/event_test.json", relativeTo: FileManager.default.homeDirectoryForCurrentUser)
+        let jsonUrl = URL(string: "./Developer/SpareRoom/SpeedRoommatingEventRepository/Tests/SpeedRoommatingEventRepositoryTests/Tests/Resources/event_test.json", relativeTo: FileManager.default.homeDirectoryForCurrentUser)
         // Please use this one, as well as changing swift-tools to 5.3 and uncommenting the resources bit in the test target
         //let jsonUrl = Bundle.module.url(forResource: "event_test", withExtension: "json")
         
