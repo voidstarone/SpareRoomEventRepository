@@ -8,7 +8,7 @@
 import Foundation
 @testable import SpeedRoommatingEventRepository
 
-struct MockSpeedRoommatingEvent : ISpeedRoommatingEvent {
+struct MockSpeedRoommatingEvent : ISpeedRoommatingDTOEvent {
     var imageUrl: String
     var cost: String
     var location: String

@@ -8,7 +8,7 @@
 import Foundation
 
 public struct SpeedRoommatingEventFactory : ISpeedRoommatingEventFactory {
-    public func createRoommatingEvent(imageUrl: String, cost: String, location: String, venue: String, startTime: Date, endTime: Date) -> ISpeedRoommatingEvent {
+    public func createRoommatingEvent(imageUrl: String, cost: String, location: String, venue: String, startTime: Date, endTime: Date) -> ISpeedRoommatingDTOEvent {
         return SpeedRoommatingEvent(imageUrl: imageUrl,
                                     cost: cost,
                                     location:location,
@@ -17,7 +17,7 @@ public struct SpeedRoommatingEventFactory : ISpeedRoommatingEventFactory {
                                     endTime: endTime)
     }
     
-    public func createRoommatingEvent(fromDict eventDict:[String:String]) -> ISpeedRoommatingEvent? {
+    public func createRoommatingEvent(fromDict eventDict:[String:String]) -> ISpeedRoommatingDTOEvent? {
         guard let cost = eventDict["cost"] else {
             return nil
         }
