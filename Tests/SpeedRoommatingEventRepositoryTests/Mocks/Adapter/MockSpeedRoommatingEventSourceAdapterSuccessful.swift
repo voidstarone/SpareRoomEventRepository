@@ -8,7 +8,7 @@
 import Foundation
 @testable import SpeedRoommatingEventRepository
 
-struct MockEventSourceAdapterSuccessful : ISpeedRoommatingEventSourceAdapter {
+struct MockSpeedRoommatingEventSourceAdapterSuccessful : ISpeedRoommatingEventSourceAdapter {
     var eventFactory: ISpeedRoommatingEventFactory = MockSpeedRoommatingEventFactory()
     
     init() {}

@@ -1,19 +1,48 @@
-# SpeedRoommatingEventRepo
+# SpeedRoommatingEventRepository
 
-An interface for getting SpeedRoommatingEvents
+A library for getting SpeedRoommatingEvents without worrying about it.
 
-Basic usage:
-```
-let ep = SpeedRoommatingEventProvider.default
-
+Get all events: unordered, unfiltered
+```swift
+let ep = SpeedRoommatingEventRepo.default
 ep.listAllEvents {
+    result in
+
+    switch result {
+    case .failure:
+        break
+    case let .success(events):
+        // Do things with events
+    }
+}
+```
+
+Get all events: ordered
+```swift
+let ep = SpeedRoommatingEventRepo.default
+ep.listAllEventsOrderedByStartTimeAscending {
     result in
     
     switch result {
     case .failure:
         break
     case let .success(events):
-        // do things with events
+        // Do things with sorted events
+    }
+}
+```
+
+Get ordered events on or after specified date
+
+```swift
+let ep = SpeedRoommatingEventRepo.default
+ep.listAllEventsOnOrAfter(date: Date()) {
+    result in
+    switch result {
+    case .failure:
+        break;
+    case let .success(filteredEvents):
+       // Do things with events you might actually be able to go to
     }
 }
 ```
