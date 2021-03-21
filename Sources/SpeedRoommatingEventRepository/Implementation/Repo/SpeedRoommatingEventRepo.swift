@@ -12,7 +12,21 @@ public enum EventRepoError : Error {
 }
 
 public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
-
+    
+    private let eventSourceAdapter: ISpeedRoommatingEventSourceAdapter
+    private let eventFactory: ISpeedRoommatingEventFactory = SpeedRoommatingEventFactory()
+    
+    public static let `default` = SpeedRoommatingEventRepo(eventSourceAdapter:
+        SpeedRoommatingEventSourceJsonApiAdapter())
+    
+    public init(eventFactory: ISpeedRoommatingEventFactory, eventSourceAdapter: ISpeedRoommatingEventSourceAdapter) {
+        self.eventSourceAdapter = eventSourceAdapter
+    }
+    
+    public init(eventSourceAdapter: ISpeedRoommatingEventSourceAdapter) {
+        self.eventSourceAdapter = eventSourceAdapter
+    }
+    
     public func listAllEventsOrderedByStartTimeAscending(onComplete: @escaping (Result<[ISpeedRoommatingEvent], Error>) -> Void) {
         
         listAllEvents {
@@ -27,6 +41,21 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
             }
         }
     }
+    
+    public func listAllEventsOnOrAfter(date: Date, onComplete: @escaping (Result<[ISpeedRoommatingEvent], Error>) -> Void) {
+        listAllEventsOrderedByStartTimeAscending {
+            result in
+            switch result {
+            case let .failure(error):
+                onComplete(.failure(error))
+                break
+            case let .success(events):
+                let eventsOnOrAfterDate = events.filter { $0.startTime >= date }
+                onComplete(.success(eventsOnOrAfterDate))
+            }
+        }
+    }
+    
     
     public func listAllEventsByYear(onComplete: @escaping (Result<[Int : [ISpeedRoommatingEvent]], Error>) -> Void) {
         
@@ -76,24 +105,9 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
                     newYearsDicts[thisYear] = newYearDicts
                 }
                 onComplete(.success(newYearsDicts))
-
+                
             }
         }
-    }
-    
-    
-    private let eventSourceAdapter: ISpeedRoommatingEventSourceAdapter
-    private let eventFactory: ISpeedRoommatingEventFactory = SpeedRoommatingEventFactory()
-    
-    public static let `default` = SpeedRoommatingEventRepo(eventSourceAdapter:
-        SpeedRoommatingEventSourceJsonApiAdapter())
-    
-    public init(eventFactory: ISpeedRoommatingEventFactory, eventSourceAdapter: ISpeedRoommatingEventSourceAdapter) {
-        self.eventSourceAdapter = eventSourceAdapter
-    }
-    
-    public init(eventSourceAdapter: ISpeedRoommatingEventSourceAdapter) {
-        self.eventSourceAdapter = eventSourceAdapter
     }
     
     public func listAllEvents(onComplete: @escaping (Result<[ISpeedRoommatingEvent], Error>) -> Void) {
