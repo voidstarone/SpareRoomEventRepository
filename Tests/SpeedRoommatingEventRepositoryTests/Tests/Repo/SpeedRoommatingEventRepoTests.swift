@@ -65,7 +65,7 @@ final class SpeedRoommatingEventRepoTests: XCTestCase {
                 break;
             case let .success(events):
                 XCTAssertGreaterThan(events.count, 0)
-                let event: ISpeedRoommatingEvent = events[0]
+                let event: ISpeedRoommatingDTOEvent = events[0]
                 XCTAssertNotNil(event)
                 promiseToComplete.fulfill()
             }
@@ -87,7 +87,7 @@ final class SpeedRoommatingEventRepoTests: XCTestCase {
                 print("event comp")
                 print(events[0], events[1])
                 XCTAssertLessThan(events[0].startTime, events[1].startTime)
-                let event: ISpeedRoommatingEvent = events[0]
+                let event: ISpeedRoommatingDTOEvent = events[0]
                 XCTAssertNotNil(event)
                 
                 promiseToComplete.fulfill()

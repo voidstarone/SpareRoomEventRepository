@@ -13,7 +13,7 @@ struct MockSpeedRoommatingEventSourceAdapterArbitrary : ISpeedRoommatingEventSou
     // This is a bit evil. But it's a very basic thing, and it's a fairly quick - only slightly evil - option
     var eventFactory: ISpeedRoommatingEventFactory = SpeedRoommatingEventFactory()
     
-    var eventsToSupply: [ISpeedRoommatingEvent]
+    var eventsToSupply: [ISpeedRoommatingDTOEvent]
 
     func listAllEventsAsDictionaries(onComplete: @escaping (Result<[[String:String]], Error>) -> Void) {
         

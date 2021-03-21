@@ -27,7 +27,7 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
         self.eventSourceAdapter = eventSourceAdapter
     }
     
-    public func listAllEventsOrderedByStartTimeAscending(onComplete: @escaping (Result<[ISpeedRoommatingEvent], Error>) -> Void) {
+    public func listAllEventsOrderedByStartTimeAscending(onComplete: @escaping (Result<[ISpeedRoommatingDTOEvent], Error>) -> Void) {
         
         listAllEvents {
             result in
@@ -42,7 +42,7 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
         }
     }
     
-    public func listAllEventsOnOrAfter(date: Date, onComplete: @escaping (Result<[ISpeedRoommatingEvent], Error>) -> Void) {
+    public func listAllEventsOnOrAfter(date: Date, onComplete: @escaping (Result<[ISpeedRoommatingDTOEvent], Error>) -> Void) {
         listAllEventsOrderedByStartTimeAscending {
             result in
             switch result {
@@ -57,7 +57,7 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
     }
     
     
-    public func listAllEventsByYear(onComplete: @escaping (Result<[Int : [ISpeedRoommatingEvent]], Error>) -> Void) {
+    public func listAllEventsByYear(onComplete: @escaping (Result<[Int : [ISpeedRoommatingDTOEvent]], Error>) -> Void) {
         
         listAllEventsOrderedByStartTimeAscending {
             result in
@@ -66,7 +66,7 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
                 onComplete(.failure(error))
                 break
             case let .success(allEvents):
-                var yearDict: [Int: [ISpeedRoommatingEvent]] = [:]
+                var yearDict: [Int: [ISpeedRoommatingDTOEvent]] = [:]
                 allEvents.forEach {
                     event in
                     let thisYear = Calendar.current.dateComponents([.year], from: event.startTime).year!
@@ -80,7 +80,7 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
         }
     }
     
-    public func listAllEventsByYearThenMonth(onComplete: @escaping (Result<[Int : [Int : [ISpeedRoommatingEvent]]], Error>) -> Void) {
+    public func listAllEventsByYearThenMonth(onComplete: @escaping (Result<[Int : [Int : [ISpeedRoommatingDTOEvent]]], Error>) -> Void) {
         listAllEventsByYear {
             result in
             switch result {
@@ -88,12 +88,12 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
                 onComplete(.failure(error))
                 break
             case let .success(allYearDicts):
-                var newYearsDicts: [Int : [Int : [ISpeedRoommatingEvent]]] = [:]
+                var newYearsDicts: [Int : [Int : [ISpeedRoommatingDTOEvent]]] = [:]
                 allYearDicts.forEach {
                     yearDict in
                     let eventsThisYear = yearDict.value
                     let thisYear = yearDict.key
-                    var newYearDicts: [Int: [ISpeedRoommatingEvent]] = [:]
+                    var newYearDicts: [Int: [ISpeedRoommatingDTOEvent]] = [:]
                     eventsThisYear.forEach {
                         event in
                         let thisMonth = Calendar.current.dateComponents([.month], from: event.startTime).month!
@@ -110,7 +110,7 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
         }
     }
     
-    public func listAllEvents(onComplete: @escaping (Result<[ISpeedRoommatingEvent], Error>) -> Void) {
+    public func listAllEvents(onComplete: @escaping (Result<[ISpeedRoommatingDTOEvent], Error>) -> Void) {
         eventSourceAdapter.listAllEventsAsDictionaries {
             result in
             
@@ -119,7 +119,7 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
                 onComplete(.failure(error))
                 break
             case let .success(dictEvents):
-                var roommatingEvents: [ISpeedRoommatingEvent] = []
+                var roommatingEvents: [ISpeedRoommatingDTOEvent] = []
                 for dictEvent in dictEvents {
                     guard let roommatingEvent = self.eventFactory.createRoommatingEvent(fromDict: dictEvent) else {
                         continue

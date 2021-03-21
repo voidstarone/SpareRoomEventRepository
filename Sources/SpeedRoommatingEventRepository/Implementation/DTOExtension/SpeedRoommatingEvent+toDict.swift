@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension ISpeedRoommatingEvent {
+extension ISpeedRoommatingDTOEvent {
     
     public func toDict() -> [String:String] {
         let utcISODateFormatter = ISO8601DateFormatter()
