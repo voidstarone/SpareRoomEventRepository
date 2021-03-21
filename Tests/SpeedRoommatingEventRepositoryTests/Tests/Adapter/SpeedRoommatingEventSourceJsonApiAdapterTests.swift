@@ -27,9 +27,9 @@ final class SpeedRoommatingEventSourceJsonApiAdapterTests: XCTestCase {
         esa.listAllEventsAsDictionaries {
             result in
             switch result {
-                case let .failure(_):
+                case .failure:
                     break;
-                case let .success(_):
+                case .success:
                     promiseToComplete.fulfill()
             }
         }

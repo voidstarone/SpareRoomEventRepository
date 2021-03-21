@@ -61,14 +61,12 @@ final class SpeedRoommatingEventRepoTests: XCTestCase {
         ep.listAllEvents {
             result in
             switch result {
-            case let .failure:
+            case .failure:
                 break;
             case let .success(events):
                 XCTAssertGreaterThan(events.count, 0)
-                guard let event: ISpeedRoommatingEvent = events[0] else {
-                    XCTAssert(false)
-                    return
-                }
+                let event: ISpeedRoommatingEvent = events[0]
+                XCTAssertNotNil(event)
                 promiseToComplete.fulfill()
             }
         }
