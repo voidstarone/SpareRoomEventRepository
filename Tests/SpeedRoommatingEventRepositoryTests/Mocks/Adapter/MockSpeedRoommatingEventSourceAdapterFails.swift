@@ -13,7 +13,7 @@ enum MockError : Error {
     case mock
 }
 
-struct MockEventSourceAdapterFailure : ISpeedRoommatingEventSourceAdapter {
+struct MockSpeedRoommatingEventSourceAdapterFailure : ISpeedRoommatingEventSourceAdapter {
     var eventFactory: ISpeedRoommatingEventFactory = MockSpeedRoommatingEventFactory()
     
     init() {}

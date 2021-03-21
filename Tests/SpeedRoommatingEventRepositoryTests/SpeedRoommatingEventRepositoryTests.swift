@@ -40,6 +40,24 @@ final class SpeedRoommatingRepoTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
     
+    func testListAllOnOrAfterDate() {
+        let promiseToComplete = self.expectation(description: "filtered fetch will complete")
+        let ep = SpeedRoommatingEventRepo.default
+        
+        ep.listAllEventsOnOrAfter(date: Date()) {
+            result in
+            switch result {
+            case .failure:
+                break;
+            case let .success(filteredEvents):
+                XCTAssertGreaterThan(filteredEvents.count, 0)
+                XCTAssertLessThan(filteredEvents.count, 900)
+                promiseToComplete.fulfill()
+            }
+        }
+        waitForExpectations(timeout: 2, handler: nil)
+    }
+    
     func testListAllByYear() {
         let promiseToComplete = self.expectation(description: "grouped fetch will complete")
         let ep = SpeedRoommatingEventRepo.default
@@ -63,5 +81,7 @@ final class SpeedRoommatingRepoTests: XCTestCase {
 
     static var allTests = [
         ("testListAll", testListAll),
+        ("testListAllOrderedAscending", testListAllOrderedAscending),
+        ("testListAllOnOrAfterDate", testListAllOnOrAfterDate),
     ]
 }
