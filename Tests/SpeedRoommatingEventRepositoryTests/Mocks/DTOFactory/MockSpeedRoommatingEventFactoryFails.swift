@@ -12,11 +12,11 @@ import Foundation
 
 public struct MockSpeedRoommatingEventFactoryFails : ISpeedRoommatingEventFactory {
     
-    public func createRoommatingEvent(fromDict eventDict: [String : String]) -> ISpeedRoommatingEvent? {
+    public func createRoommatingEvent(fromDict eventDict: [String : String]) -> ISpeedRoommatingDTOEvent? {
         return nil
     }
     
-    public func createRoommatingEvent(imageUrl: String, cost: String, location: String, venue: String, startTime: Date, endTime: Date) -> ISpeedRoommatingEvent {
+    public func createRoommatingEvent(imageUrl: String, cost: String, location: String, venue: String, startTime: Date, endTime: Date) -> ISpeedRoommatingDTOEvent {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         return MockSpeedRoommatingEvent(imageUrl: "http://example.com/jpg2",

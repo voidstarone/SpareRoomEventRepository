@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ISpeedRoommatingEvent {
+public protocol ISpeedRoommatingDTOEvent {
     var imageUrl: String {get}
     var cost: String {get}
     var location: String {get}

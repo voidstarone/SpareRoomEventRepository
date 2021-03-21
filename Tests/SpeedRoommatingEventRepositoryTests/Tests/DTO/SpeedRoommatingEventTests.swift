@@ -6,7 +6,7 @@ final class SpeedRoommatingEventTests: XCTestCase {
     func testInstatiateEvent() {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
-        let event: ISpeedRoommatingEvent = SpeedRoommatingEvent(imageUrl: "url",
+        let event: ISpeedRoommatingDTOEvent = SpeedRoommatingEvent(imageUrl: "url",
                                                                 cost: "cost",
                                                                 location: "location",
                                                                 venue: "venue",
