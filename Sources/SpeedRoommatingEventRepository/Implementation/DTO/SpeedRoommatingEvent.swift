@@ -15,4 +15,3 @@ public struct SpeedRoommatingEvent : ISpeedRoommatingDTOEvent {
     public var startTime: Date
     public var endTime: Date
 }
-

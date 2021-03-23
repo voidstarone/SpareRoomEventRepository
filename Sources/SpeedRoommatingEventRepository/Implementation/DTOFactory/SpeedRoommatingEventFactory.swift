@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SpeedRoommatingEventFactory : ISpeedRoommatingEventFactory {
+internal struct SpeedRoommatingEventFactory : ISpeedRoommatingEventFactory {
     public func createRoommatingEvent(imageUrl: String, cost: String, location: String, venue: String, startTime: Date, endTime: Date) -> ISpeedRoommatingDTOEvent {
         return SpeedRoommatingEvent(imageUrl: imageUrl,
                                     cost: cost,
