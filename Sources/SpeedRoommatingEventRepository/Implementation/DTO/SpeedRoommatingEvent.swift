@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct SpeedRoommatingEvent : ISpeedRoommatingDTOEvent {
+internal struct SpeedRoommatingEvent : ISpeedRoommatingDTOEvent {
+
     public var imageUrl: String
     public var cost: String // Probably should be enum, but I don't have enough information to make a really good choice.
     public var location: String
