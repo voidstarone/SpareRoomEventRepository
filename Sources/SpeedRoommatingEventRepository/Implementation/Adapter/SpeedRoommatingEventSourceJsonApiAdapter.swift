@@ -71,7 +71,7 @@ public struct SpeedRoommatingEventSourceJsonApiAdapter : ISpeedRoommatingEventSo
             data, response, requestError in
             do {
                 if requestError != nil {
-                    onComplete(.failure(requestError!))
+                    onComplete(.failure(SpeedRoommatingEventSourceJsonApiAdapterError.timeout))
                     return
                 }
                 // If this cast fails I have bigger problems than I can handle
