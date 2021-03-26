@@ -82,6 +82,7 @@ final class SpeedRoommatingRepoTests: XCTestCase {
                     return event.startTime >= targetDate
                 }.count
                 XCTAssertEqual(numEventsOnOrAfter, 0)
+
                 promiseToComplete.fulfill()
             }
         }
