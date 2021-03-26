@@ -56,6 +56,19 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
         }
     }
     
+    public func listAllEventsBefore(date: Date, onComplete: @escaping (Result<[ISpeedRoommatingDTOEvent], Error>) -> Void) {
+        listAllEventsOrderedByStartTimeAscending {
+            result in
+            switch result {
+            case let .failure(error):
+                onComplete(.failure(error))
+                break
+            case let .success(events):
+                let eventsOnOrAfterDate = events.filter { $0.startTime < date }
+                onComplete(.success(eventsOnOrAfterDate))
+            }
+        }
+    }
     
     public func listAllEventsByYear(onComplete: @escaping (Result<[Int : [ISpeedRoommatingDTOEvent]], Error>) -> Void) {
         
