@@ -43,8 +43,8 @@ final class SpeedRoommatingRepoTests: XCTestCase {
     func testListAllOnOrAfterDate() {
         let promiseToComplete = self.expectation(description: "filtered fetch will complete")
         let ep = SpeedRoommatingEventRepo.default
-        
-        ep.listAllEventsOnOrAfter(date: Date()) {
+        let targetDate = Date()
+        ep.listAllEventsOnOrAfter(date: targetDate) {
             result in
             switch result {
             case .failure:
@@ -52,6 +52,36 @@ final class SpeedRoommatingRepoTests: XCTestCase {
             case let .success(filteredEvents):
                 XCTAssertGreaterThan(filteredEvents.count, 0)
                 XCTAssertLessThan(filteredEvents.count, 900)
+                let numEventsBefore = filteredEvents.filter {
+                    event in
+                    return event.startTime < targetDate
+                }.count
+                XCTAssertEqual(numEventsBefore, 0)
+                
+                promiseToComplete.fulfill()
+            }
+        }
+        waitForExpectations(timeout: 2, handler: nil)
+    }
+    
+    func testListAllBeforeDate() {
+        let promiseToComplete = self.expectation(description: "filtered fetch will complete")
+        let ep = SpeedRoommatingEventRepo.default
+        let targetDate = Date()
+        
+        ep.listAllEventsBefore(date: targetDate) {
+            result in
+            switch result {
+            case .failure:
+                break;
+            case let .success(filteredEvents):
+                XCTAssertGreaterThan(filteredEvents.count, 0)
+                XCTAssertLessThan(filteredEvents.count, 900)
+                let numEventsOnOrAfter = filteredEvents.filter {
+                    event in
+                    return event.startTime >= targetDate
+                }.count
+                XCTAssertEqual(numEventsOnOrAfter, 0)
                 promiseToComplete.fulfill()
             }
         }
@@ -83,5 +113,6 @@ final class SpeedRoommatingRepoTests: XCTestCase {
         ("testListAll", testListAll),
         ("testListAllOrderedAscending", testListAllOrderedAscending),
         ("testListAllOnOrAfterDate", testListAllOnOrAfterDate),
+        ("testListAllBeforeDate", testListAllBeforeDate),
     ]
 }

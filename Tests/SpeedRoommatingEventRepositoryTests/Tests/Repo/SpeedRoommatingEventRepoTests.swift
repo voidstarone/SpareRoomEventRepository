@@ -96,7 +96,7 @@ final class SpeedRoommatingEventRepoTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
     
-    func testListAllEventReturnsResultsAfterDate() {
+    func testListAllEventReturnsResultsOnOrAfterDate() {
         let promiseToComplete = self.expectation(description: "fetch will complete")
         
         let formatter = DateFormatter()
@@ -122,6 +122,39 @@ final class SpeedRoommatingEventRepoTests: XCTestCase {
             case let .success(filteredEvents):
                 for event in filteredEvents {
                     XCTAssertNotEqual(event.venue, oldEvent.venue)
+                }
+                promiseToComplete.fulfill()
+            }
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testListAllEventReturnsResultsBeforeDate() {
+        let promiseToComplete = self.expectation(description: "fetch will complete")
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+
+        let oldEvent = MockSpeedRoommatingEvent(imageUrl: "", cost: "", location: "", venue: "old", startTime: formatter.date(from: "2019-05-21 02:00")!, endTime: formatter.date(from: "2019-05-21 04:00")!)
+        let mockEvents = [
+            MockSpeedRoommatingEvent(imageUrl: "", cost: "", location: "", venue: "new", startTime: formatter.date(from: "2021-05-21 02:00")!, endTime: formatter.date(from: "2021-05-21 04:00")!),
+            oldEvent,
+            MockSpeedRoommatingEvent(imageUrl: "", cost: "", location: "", venue: "new", startTime: formatter.date(from: "2021-05-21 02:01")!, endTime: formatter.date(from: "2021-05-21 04:00")!)
+        ]
+        
+        let esa = MockSpeedRoommatingEventSourceAdapterArbitrary(eventsToSupply: mockEvents)
+        ep = SpeedRoommatingEventRepo(eventFactory: MockSpeedRoommatingEventFactory(), eventSourceAdapter: esa)
+        
+        let afterDate = formatter.date(from: "2021-05-21 04:00")!
+        
+        ep.listAllEventsOnOrAfter(date: afterDate) {
+            result in
+            switch result {
+            case .failure:
+                break;
+            case let .success(filteredEvents):
+                for event in filteredEvents {
+                    XCTAssertEqual(event.venue, oldEvent.venue)
                 }
                 promiseToComplete.fulfill()
             }
