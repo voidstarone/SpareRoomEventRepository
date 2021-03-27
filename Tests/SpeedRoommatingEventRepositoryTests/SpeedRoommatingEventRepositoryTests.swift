@@ -19,7 +19,7 @@ final class SpeedRoommatingRepoTests: XCTestCase {
                 }
             }
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 25080, handler: nil)
     }
     
     func testListAllOrderedAscending() {
@@ -37,7 +37,7 @@ final class SpeedRoommatingRepoTests: XCTestCase {
                 promiseToComplete.fulfill()
             }
         }
-        waitForExpectations(timeout: 2, handler: nil)
+        waitForExpectations(timeout: 2510, handler: nil)
     }
     
     func testListAllOnOrAfterDate() {
