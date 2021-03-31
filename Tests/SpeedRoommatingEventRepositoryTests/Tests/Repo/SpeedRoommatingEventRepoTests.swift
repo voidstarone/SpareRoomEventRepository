@@ -97,6 +97,7 @@ final class SpeedRoommatingEventRepoTests: XCTestCase {
     }
     
     func testListAllEventReturnsResultsOnOrAfterDate() {
+      
         let promiseToComplete = self.expectation(description: "fetch will complete")
         
         let formatter = DateFormatter()
