@@ -161,42 +161,4 @@ final class SpeedRoommatingEventRepoTests: XCTestCase {
         }
         waitForExpectations(timeout: 1, handler: nil)
     }
-    
-    // TODO: reconsider whether these two fit in here
-    func testListAllEventsByYearReturnsResults() {
-        let promiseToComplete = self.expectation(description: "fetch will complete")
-        
-        ep.listAllEventsByYear {
-            result in
-            switch result {
-            case .failure:
-                break;
-            case let .success(eventsByYear):
-                XCTAssertGreaterThan(eventsByYear[2021]!.count, 0)
-                XCTAssertNil(eventsByYear[2020])
-                promiseToComplete.fulfill()
-            }
-        }
-        waitForExpectations(timeout: 1, handler: nil)
-    }
-    
-    func testListAllEventsByYearThenMonthReturnsResults() {
-        let promiseToComplete = self.expectation(description: "fetch will complete")
-        
-        ep.listAllEventsByYearThenMonth {
-            result in
-            switch result {
-            case.failure:
-                break;
-            case let .success(eventsByYear):
-                let eventsIn2021 = eventsByYear[2021]!
-                XCTAssertGreaterThan(eventsIn2021.count, 0)
-                
-                let eventsInJune = eventsIn2021[6]!
-                XCTAssertGreaterThan(eventsInJune.count, 0)
-                promiseToComplete.fulfill()
-            }
-        }
-        waitForExpectations(timeout: 1, handler: nil)
-    }
 }
