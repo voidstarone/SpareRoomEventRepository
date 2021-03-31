@@ -12,7 +12,7 @@ internal struct SpeedRoommatingEventSourceJsonApiAdapterConfig {
     public let secretKey: String
 }
 
-public enum SpeedRoommatingEventSourceJsonApiAdapterError : Error {
+enum SpeedRoommatingEventSourceJsonApiAdapterError : Error {
     case noData
     case invalidData
     case noConnection
