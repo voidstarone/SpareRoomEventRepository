@@ -12,7 +12,7 @@ internal struct SpeedRoommatingEventSourceJsonApiAdapterConfig {
     public let secretKey: String
 }
 
-public enum SpeedRoommatingEventSourceJsonApiAdapterError : Error {
+enum SpeedRoommatingEventSourceJsonApiAdapterError : Error {
     case noData
     case invalidData
     case noConnection
@@ -66,6 +66,10 @@ public struct SpeedRoommatingEventSourceJsonApiAdapter : ISpeedRoommatingEventSo
         
         // Ideally this would be abstracted so we could mock no connection
         // Which would also allow us to fully cover lookUpError
+        // I am aware there is a fully mocked version of this just ready to
+        // go up on GitHub, but there's no version that works with my machine.
+        // On every single commit, either the Swift version is too low, or
+        // the swift-tools version is to high.
         let session = URLSession.shared
         let task = session.dataTask(with: request) {
             data, response, requestError in

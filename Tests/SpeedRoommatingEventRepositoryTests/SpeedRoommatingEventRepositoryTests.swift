@@ -82,28 +82,6 @@ final class SpeedRoommatingRepoTests: XCTestCase {
                     return event.startTime >= targetDate
                 }.count
                 XCTAssertEqual(numEventsOnOrAfter, 0)
-
-                promiseToComplete.fulfill()
-            }
-        }
-        waitForExpectations(timeout: 2, handler: nil)
-    }
-    
-    func testListAllByYear() {
-        let promiseToComplete = self.expectation(description: "grouped fetch will complete")
-        let ep = SpeedRoommatingEventRepo.default
-        
-        ep.listAllEventsByYear {
-            result in
-            
-            switch result {
-            case .failure:
-                break
-            case let .success(years):
-                
-                XCTAssertNotNil(years[2021])
-                XCTAssertNotNil(years[2020])
-                XCTAssertNil(years[2019])
                 promiseToComplete.fulfill()
             }
         }

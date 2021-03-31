@@ -27,10 +27,10 @@ let package = Package(
             name: "SpeedRoommmatingEventRepositoryTests",
             dependencies: ["SpeedRoommatingEventRepository"],
             path: "Tests"
-//            resources: [
-//                .copy("bad_event_test.json"),
-//                .copy("event_test.json")
-//            ]
+            //            resources: [
+            //                .process("bad_event_test.json"),
+            //                .process("event_test.json")
+            //            ]
         ),
     ]
 )
