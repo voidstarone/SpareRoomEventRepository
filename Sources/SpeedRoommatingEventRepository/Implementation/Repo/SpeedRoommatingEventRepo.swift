@@ -7,8 +7,9 @@
 
 import Foundation
 
-public enum EventRepoError : Error {
-    case noConnection
+public enum SpeedRoommatingEventRepoError : Error {
+    case network
+    case unknown
 }
 
 public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
@@ -27,11 +28,23 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
         self.eventSourceAdapter = eventSourceAdapter
     }
     
+    private func produceEventRepoError(from inError: SpeedRoommatingEventSourceJsonApiAdapterError) -> SpeedRoommatingEventRepoError {
+        switch inError {
+        case .timeout:
+            return .network
+        default:
+            return .unknown
+        }
+    }
+    
     public func listAllEventsOrderedByStartTimeAscending(onComplete: @escaping (Result<[ISpeedRoommatingDTOEvent], Error>) -> Void) {
         
         listAllEvents {
             result in
             switch result {
+            case let .failure(error as SpeedRoommatingEventSourceJsonApiAdapterError):
+                onComplete(.failure(self.produceEventRepoError(from: error)))
+                break
             case let .failure(error):
                 onComplete(.failure(error))
                 break
@@ -46,6 +59,9 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
         listAllEventsOrderedByStartTimeAscending {
             result in
             switch result {
+            case let .failure(error as SpeedRoommatingEventSourceJsonApiAdapterError):
+                onComplete(.failure(self.produceEventRepoError(from: error)))
+                break
             case let .failure(error):
                 onComplete(.failure(error))
                 break
@@ -60,6 +76,9 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
         listAllEventsOrderedByStartTimeAscending {
             result in
             switch result {
+            case let .failure(error as SpeedRoommatingEventSourceJsonApiAdapterError):
+                onComplete(.failure(self.produceEventRepoError(from: error)))
+                break
             case let .failure(error):
                 onComplete(.failure(error))
                 break
@@ -70,64 +89,14 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
         }
     }
     
-    public func listAllEventsByYear(onComplete: @escaping (Result<[Int : [ISpeedRoommatingDTOEvent]], Error>) -> Void) {
-        
-        listAllEventsOrderedByStartTimeAscending {
-            result in
-            switch result {
-            case let .failure(error):
-                onComplete(.failure(error))
-                break
-            case let .success(allEvents):
-                var yearDict: [Int: [ISpeedRoommatingDTOEvent]] = [:]
-                allEvents.forEach {
-                    event in
-                    let thisYear = Calendar.current.dateComponents([.year], from: event.startTime).year!
-                    if yearDict[thisYear] == nil {
-                        yearDict[thisYear] = []
-                    }
-                    yearDict[thisYear]!.append(event)
-                }
-                onComplete(.success(yearDict))
-            }
-        }
-    }
-    
-    public func listAllEventsByYearThenMonth(onComplete: @escaping (Result<[Int : [Int : [ISpeedRoommatingDTOEvent]]], Error>) -> Void) {
-        listAllEventsByYear {
-            result in
-            switch result {
-            case let .failure(error):
-                onComplete(.failure(error))
-                break
-            case let .success(allYearDicts):
-                var newYearsDicts: [Int : [Int : [ISpeedRoommatingDTOEvent]]] = [:]
-                allYearDicts.forEach {
-                    yearDict in
-                    let eventsThisYear = yearDict.value
-                    let thisYear = yearDict.key
-                    var newYearDicts: [Int: [ISpeedRoommatingDTOEvent]] = [:]
-                    eventsThisYear.forEach {
-                        event in
-                        let thisMonth = Calendar.current.dateComponents([.month], from: event.startTime).month!
-                        if newYearDicts[thisMonth] == nil {
-                            newYearDicts[thisMonth] = []
-                        }
-                        newYearDicts[thisMonth]?.append(event)
-                    }
-                    newYearsDicts[thisYear] = newYearDicts
-                }
-                onComplete(.success(newYearsDicts))
-                
-            }
-        }
-    }
-    
     public func listAllEvents(onComplete: @escaping (Result<[ISpeedRoommatingDTOEvent], Error>) -> Void) {
         eventSourceAdapter.listAllEventsAsDictionaries {
             result in
             
             switch result {
+            case let .failure(error as SpeedRoommatingEventSourceJsonApiAdapterError):
+                onComplete(.failure(self.produceEventRepoError(from: error)))
+                break
             case let .failure(error):
                 onComplete(.failure(error))
                 break
@@ -143,5 +112,5 @@ public struct SpeedRoommatingEventRepo : ISpeedRoommatingEventRepo {
             }
         }
     }
-
+    
 }
